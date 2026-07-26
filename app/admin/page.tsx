@@ -40,10 +40,9 @@ export default function AdminPage() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://127.0.0.1:8000/registrations"
-      );
-
+     const response = await fetch(
+  "https://techpark-backend.onrender.com/registrations"
+);
       const data = await response.json();
       setRegistrations(data);
     } catch (error) {
@@ -60,13 +59,12 @@ export default function AdminPage() {
     if (!ok) return;
 
     try {
-      await fetch(
-        `http://127.0.0.1:8000/registrations/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
-
+    await fetch(
+  `https://techpark-backend.onrender.com/registrations/${id}`,
+  {
+    method: "DELETE",
+  }
+);
       loadRegistrations();
     } catch (error) {
       console.error(error);
