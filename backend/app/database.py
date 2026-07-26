@@ -1,13 +1,17 @@
-try:
-    from supabase import create_client, Client
-except Exception as e:  # ImportError or other import issues
-    raise ImportError(
-        "Unable to import 'supabase'. Install the package with 'pip install supabase' (or 'pip install supabase-py') and ensure your environment is correct. Original error: {}".format(e)
-    )
-from dotenv import load_dotenv
+from supabase import create_client, Client
 import os
+from pathlib import Path
 
-load_dotenv()
+env_path = Path(__file__).resolve().parent.parent / ".env"
+if env_path.exists():
+    with env_path.open() as env_file:
+        for line in env_file:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            key, sep, value = line.partition("=")
+            if sep:
+                os.environ.setdefault(key, value.strip().strip('"').strip("'"))
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")

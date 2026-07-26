@@ -31,7 +31,9 @@ export default function Registration() {
   const [loading, setLoading] = useState(false);
 
   function handleChange(
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+    e: ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
   ) {
     const { name, value } = e.target;
 
@@ -47,26 +49,35 @@ export default function Registration() {
     setLoading(true);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
+      const response = await fetch(
+        "https://techpark-backend.onrender.com/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(form),
+        }
+      );
 
-      const data = await response.json();
+      const text = await response.text();
+
+      console.log("==================================");
+      console.log("Status:", response.status);
+      console.log("Response:", text);
+      console.log("==================================");
 
       if (!response.ok) {
-        throw new Error(data.detail || "Registration failed");
+        alert(`Error ${response.status}\n\n${text}`);
+        return;
       }
 
-      alert("Registration Successful!");
+      alert("🎉 Registration Successful!");
 
       setForm(initialForm);
     } catch (error) {
-      console.error(error);
-      alert("Something went wrong. Please try again.");
+      console.error("Fetch Error:", error);
+      alert("❌ Network Error. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -93,8 +104,7 @@ export default function Registration() {
           className="mx-auto mt-12 max-w-5xl rounded-3xl border border-gray-200 bg-white p-10 shadow-2xl"
         >
           <div className="grid gap-8 md:grid-cols-2">
-
-            {/* Full Name */}
+                        {/* Full Name */}
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-700">
                 Full Name
@@ -161,7 +171,8 @@ export default function Registration() {
                 className="w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm outline-none transition focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
               />
             </div>
-                        {/* Department */}
+
+            {/* Department */}
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-700">
                 Department
@@ -262,8 +273,8 @@ export default function Registration() {
                 />
 
                 <span className="text-sm text-gray-700">
-                  I confirm that the information provided is correct and I
-                  agree to participate in the TechPark PCB Design Workshop.
+                  I confirm that the information provided is correct and I agree
+                  to participate in the TechPark PCB Design Workshop.
                 </span>
               </label>
             </div>
