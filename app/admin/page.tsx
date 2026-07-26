@@ -3,10 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import * as XLSX from "xlsx";
-// file-saver has no bundled TypeScript types in this project; ignore the missing declaration
-// @ts-expect-error
 import { saveAs } from "file-saver";
-
 interface Registration {
   id: number;
   full_name: string;
